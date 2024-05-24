@@ -21,6 +21,7 @@ const {
   updateOrder,
   deleteOrder,
 } = require("./src/controllers/orders");
+const { registerUser, loginUser } = require("./src/controllers/auth");
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -34,6 +35,27 @@ app.use(express.json());
 // Ruta básica de prueba
 app.get("/", (req, res) => {
   res.send("Servidor Express configurado correctamente.");
+});
+
+// Endpoints para autenticación
+app.post("/register", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const user = await registerUser(name, email, password);
+    res.status(201).json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await loginUser(email, password);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(401).json({ message: error.message });
+  }
 });
 
 // Endpoints para productos
