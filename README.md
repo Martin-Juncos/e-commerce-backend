@@ -1,17 +1,18 @@
-## Funcionalidades básicas de productos
+## Configuración del servidor
 
-Este proyecto permite agregar, listar y eliminar productos utilizando arrays y objetos para almacenar la información.
+Este proyecto utiliza Express.js para manejar el servidor y dotenv para gestionar variables de entorno.
 
-### Funciones
+### Instalación de librerías
 
-- `addProduct(name, price, category)`: Añade un nuevo producto con el nombre, precio y categoría especificados.
-- `listProducts()`: Lista todos los productos almacenados.
-- `deleteProduct(id)`: Elimina el producto con el ID especificado.
+Las siguientes librerías son necesarias para el funcionamiento del servidor:
 
-### Ejecución del proyecto
+- express
+- dotenv
 
-Para ejecutar el proyecto y ver las funcionalidades básicas, utiliza el siguiente comando:
+### Variables de entorno
 
-```bash
-npm run dev
+Utilizamos un archivo `.env` para almacenar configuraciones sensibles. Asegúrate de crear un archivo `.env` en el directorio raíz del proyecto con el siguiente contenido:
+
+```env
+PORT=3000
 ```
