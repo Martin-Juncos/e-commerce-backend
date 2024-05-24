@@ -16,3 +16,21 @@ Utilizamos un archivo `.env` para almacenar configuraciones sensibles. Asegúrat
 ```env
 PORT=3000
 ```
+
+## API de Productos
+
+La API permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en los productos. A continuación se describen los endpoints disponibles:
+
+### Crear un producto
+
+**Endpoint:** `POST /products`
+**Descripción:** Crea un nuevo producto.
+**Cuerpo de la solicitud:**
+
+```json
+{
+  "name": "Nombre del producto",
+  "price": 100,
+  "category": "Categoría del producto"
+}
+```
