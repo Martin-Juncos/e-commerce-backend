@@ -1,17 +1,17 @@
-# E-commerce Backend
+## Funcionalidades básicas de productos
 
-## Configuración inicial del proyecto
+Este proyecto permite agregar, listar y eliminar productos utilizando arrays y objetos para almacenar la información.
 
-Este proyecto utiliza Node.js y Visual Studio Code para el desarrollo de la aplicación backend de e-commerce.
+### Funciones
 
-### Módulos utilizados
+- `addProduct(name, price, category)`: Añade un nuevo producto con el nombre, precio y categoría especificados.
+- `listProducts()`: Lista todos los productos almacenados.
+- `deleteProduct(id)`: Elimina el producto con el ID especificado.
 
-- Node.js
-- npm
+### Ejecución del proyecto
 
-### Instalación
+Para ejecutar el proyecto y ver las funcionalidades básicas, utiliza el siguiente comando:
 
-1. Clonar el repositorio:
-   ```bash
-   git clone https://github.com/tu-usuario/e-commerce-backend.git
-   ```
+```bash
+npm run dev
+```
