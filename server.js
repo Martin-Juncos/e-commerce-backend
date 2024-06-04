@@ -22,6 +22,7 @@ const {
   deleteOrder,
 } = require("./src/controllers/orders");
 const { registerUser, loginUser } = require("./src/controllers/auth");
+const authMiddleware = require("./src/middleware/authMiddleware");
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -58,18 +59,18 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Endpoints para productos
-app.post("/products", (req, res) => {
+// Endpoints para productos (protegidos)
+app.post("/products", authMiddleware, (req, res) => {
   const { name, price, category } = req.body;
   const product = addProduct(name, price, category);
   res.status(201).json(product);
 });
 
-app.get("/products", (req, res) => {
+app.get("/products", authMiddleware, (req, res) => {
   res.json(listProducts());
 });
 
-app.get("/products/:id", (req, res) => {
+app.get("/products/:id", authMiddleware, (req, res) => {
   const product = getProductById(parseInt(req.params.id));
   if (product) {
     res.json(product);
@@ -78,7 +79,7 @@ app.get("/products/:id", (req, res) => {
   }
 });
 
-app.put("/products/:id", (req, res) => {
+app.put("/products/:id", authMiddleware, (req, res) => {
   const updatedProduct = updateProduct(parseInt(req.params.id), req.body);
   if (updatedProduct) {
     res.json(updatedProduct);
@@ -87,7 +88,7 @@ app.put("/products/:id", (req, res) => {
   }
 });
 
-app.delete("/products/:id", (req, res) => {
+app.delete("/products/:id", authMiddleware, (req, res) => {
   const deletedProduct = deleteProduct(parseInt(req.params.id));
   if (deletedProduct) {
     res.json(deletedProduct);

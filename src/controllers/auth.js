@@ -39,6 +39,7 @@ async function loginUser(email, password) {
 }
 
 module.exports = {
+  readUsers,
   registerUser,
   loginUser,
 };
