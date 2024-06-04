@@ -4,6 +4,7 @@ const productRoutes = require("./src/routes/products");
 const userRoutes = require("./src/routes/users");
 const authRoutes = require("./src/routes/auth");
 const orderRoutes = require("./src/routes/orders");
+const errorHandler = require("./src/middlewares/errorHandlerMiddleware");
 
 // Cargar variables de entorno desde el archivo .env
 dotenv.config();
@@ -24,6 +25,9 @@ app.use("/products", productRoutes);
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);
+
+// Middleware de manejo de errores
+app.use(errorHandler);
 
 // Iniciar el servidor
 app.listen(port, () => {
