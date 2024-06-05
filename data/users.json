@@ -27,21 +27,5 @@
     "id": 5,
     "name": "clau",
     "email": "clau@ejemplo.com"
-  },
-  {
-    "id": 6,
-    "name": "fer"
-  },
-  {
-    "id": 7,
-    "name": "thiago"
-  },
-  {
-    "id": 8,
-    "name": "pancho"
-  },
-  {
-    "id": 9,
-    "name": "John Doe"
   }
 ]
