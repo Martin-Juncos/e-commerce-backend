@@ -90,3 +90,41 @@ La API permite registrar y autenticar usuarios. A continuación se describen los
   "password": "contraseña"
 }
 ```
+
+# <<<<<<< Updated upstream
+
+## Flujo de Trabajo con Git
+
+Este proyecto utiliza un flujo de trabajo basado en ramas para gestionar el desarrollo y la producción.
+
+### Ramas Principales
+
+- `develop`: Rama principal para el desarrollo.
+- `production`: Rama principal para la producción.
+
+### Flujo de Trabajo
+
+1. Crear una rama de funcionalidad a partir de `develop`.
+2. Realizar cambios y hacer commit en la rama de funcionalidad.
+3. Fusionar la rama de funcionalidad en `develop`.
+4. Fusionar `develop` en `production` cuando una nueva versión esté lista para ser lanzada.
+
+### Comandos Básicos
+
+```bash
+# Crear y cambiar a una nueva rama
+git checkout -b feature/nueva-funcionalidad develop
+
+# Hacer commit de los cambios
+git add .
+git commit -m "Implementar nueva funcionalidad"
+
+# Cambiar a la rama develop y fusionar la rama de funcionalidad
+git checkout develop
+git merge feature/nueva-funcionalidad
+
+# Cambiar a la rama production y fusionar develop
+git checkout production
+git merge develop
+
+```
