@@ -91,8 +91,6 @@ La API permite registrar y autenticar usuarios. A continuación se describen los
 }
 ```
 
-# <<<<<<< Updated upstream
-
 ## Flujo de Trabajo con Git
 
 Este proyecto utiliza un flujo de trabajo basado en ramas para gestionar el desarrollo y la producción.
