@@ -1,5 +1,7 @@
 const fs = require("fs").promises;
 const path = require("path");
+const jwt = require("jsonwebtoken");
+const { jwtSecret, jwtExpire } = require("../config");
 
 const usersFilePath = path.join(__dirname, "../../data/users.json");
 
@@ -32,7 +34,10 @@ async function loginUser(email, password) {
   const users = await readUsers();
   const user = users.find((u) => u.email === email && u.password === password);
   if (user) {
-    return user;
+    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, {
+      expiresIn: jwtExpire,
+    });
+    return { user, token };
   } else {
     throw new Error("Invalid email or password");
   }

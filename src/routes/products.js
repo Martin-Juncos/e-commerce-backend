@@ -9,11 +9,13 @@ const {
 } = require("../controllers/products");
 const authMiddleware = require("../middlewares/authMiddleware");
 const adminMiddleware = require("../middlewares/adminMiddleware");
+const jwtMiddleware = require("../middlewares/jwtMiddleware");
 
 const router = express.Router();
 
 router.post(
   "/",
+  jwtMiddleware,
   authMiddleware,
   adminMiddleware,
   [
@@ -21,7 +23,7 @@ router.post(
     body("price").isNumeric().withMessage("El precio debe ser un número"),
     body("category").notEmpty().withMessage("La categoría es requerida"),
   ],
-  (req, res, next) => {
+  (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -32,11 +34,11 @@ router.post(
   }
 );
 
-router.get("/", authMiddleware, (req, res) => {
+router.get("/", jwtMiddleware, authMiddleware, (req, res) => {
   res.json(listProducts());
 });
 
-router.get("/:id", authMiddleware, (req, res) => {
+router.get("/:id", jwtMiddleware, authMiddleware, (req, res) => {
   const product = getProductById(parseInt(req.params.id));
   if (product) {
     res.json(product);
@@ -47,6 +49,7 @@ router.get("/:id", authMiddleware, (req, res) => {
 
 router.put(
   "/:id",
+  jwtMiddleware,
   authMiddleware,
   adminMiddleware,
   [
@@ -60,7 +63,7 @@ router.put(
       .notEmpty()
       .withMessage("La categoría es requerida"),
   ],
-  (req, res, next) => {
+  (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -74,13 +77,19 @@ router.put(
   }
 );
 
-router.delete("/:id", authMiddleware, adminMiddleware, (req, res) => {
-  const deletedProduct = deleteProduct(parseInt(req.params.id));
-  if (deletedProduct) {
-    res.json(deletedProduct);
-  } else {
-    res.status(404).send("Producto no encontrado");
+router.delete(
+  "/:id",
+  jwtMiddleware,
+  authMiddleware,
+  adminMiddleware,
+  (req, res) => {
+    const deletedProduct = deleteProduct(parseInt(req.params.id));
+    if (deletedProduct) {
+      res.json(deletedProduct);
+    } else {
+      res.status(404).send("Producto no encontrado");
+    }
   }
-});
+);
 
 module.exports = router;
