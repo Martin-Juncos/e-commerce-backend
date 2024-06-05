@@ -22,10 +22,10 @@ async function writeUsers(users) {
 
 async function registerUser(name, email, password) {
   const users = await readUsers();
-  const user = { id: users.length + 1, name, email, password };
-  users.push(user);
+  const newUser = { id: users.length + 1, name, email, password };
+  users.push(newUser);
   await writeUsers(users);
-  return user;
+  return newUser;
 }
 
 async function loginUser(email, password) {
@@ -38,8 +38,4 @@ async function loginUser(email, password) {
   }
 }
 
-module.exports = {
-  readUsers,
-  registerUser,
-  loginUser,
-};
+module.exports = { registerUser, loginUser, readUsers, writeUsers };
