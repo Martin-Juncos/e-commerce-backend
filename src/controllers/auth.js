@@ -22,9 +22,9 @@ async function writeUsers(users) {
   }
 }
 
-async function registerUser(name, email, password) {
+async function registerUser(name, email, password, role = "cliente") {
   const users = await readUsers();
-  const newUser = { id: users.length + 1, name, email, password };
+  const newUser = { id: users.length + 1, name, email, password, role };
   users.push(newUser);
   await writeUsers(users);
   return newUser;
@@ -34,9 +34,11 @@ async function loginUser(email, password) {
   const users = await readUsers();
   const user = users.find((u) => u.email === email && u.password === password);
   if (user) {
-    const token = jwt.sign({ id: user.id, email: user.email }, jwtSecret, {
-      expiresIn: jwtExpire,
-    });
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      jwtSecret,
+      { expiresIn: jwtExpire }
+    );
     return { user, token };
   } else {
     throw new Error("Invalid email or password");

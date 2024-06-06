@@ -3,30 +3,34 @@
     "id": 1,
     "name": "Nombre del usuario",
     "email": "correo@ejemplo.com",
-    "password": "contraseña"
+    "password": "contraseña",
+    "role": "cliente"
   },
   {
     "id": 2,
-    "name": "admin",
-    "email": "admin@ejemplo.com",
-    "password": "admin"
+    "name": "Martin",
+    "email": "martin@ejemplo.com",
+    "password": "administrador",
+    "role": "cliente"
   },
   {
     "id": 3,
-    "name": "admin",
-    "email": "admin@ejemplo.com",
-    "password": "admin"
+    "name": "Martin",
+    "email": "martin@ejemplo.com",
+    "password": "administrador"
   },
   {
     "id": 4,
-    "name": "admin",
-    "email": "admin@ejemplo.com",
-    "password": "admin"
+    "name": "Martin",
+    "email": "martin@ejemplo.com",
+    "password": "administrador",
+    "role": "cliente"
   },
   {
     "id": 5,
-    "name": "admin",
-    "email": "admin@ejemplo.com",
-    "password": "admin"
+    "name": "administrador",
+    "email": "administrador@ejemplo.com",
+    "password": "administrador",
+    "role": "administrador"
   }
 ]

@@ -7,17 +7,15 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/products");
-const authMiddleware = require("../middlewares/authMiddleware");
-const adminMiddleware = require("../middlewares/adminMiddleware");
 const jwtMiddleware = require("../middlewares/jwtMiddleware");
+const roleMiddleware = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
 router.post(
   "/",
   jwtMiddleware,
-  authMiddleware,
-  adminMiddleware,
+  roleMiddleware("administrador"),
   [
     body("name").notEmpty().withMessage("El nombre es requerido"),
     body("price").isNumeric().withMessage("El precio debe ser un número"),
@@ -34,11 +32,11 @@ router.post(
   }
 );
 
-router.get("/", jwtMiddleware, authMiddleware, (req, res) => {
+router.get("/", jwtMiddleware, (req, res) => {
   res.json(listProducts());
 });
 
-router.get("/:id", jwtMiddleware, authMiddleware, (req, res) => {
+router.get("/:id", jwtMiddleware, (req, res) => {
   const product = getProductById(parseInt(req.params.id));
   if (product) {
     res.json(product);
@@ -50,8 +48,7 @@ router.get("/:id", jwtMiddleware, authMiddleware, (req, res) => {
 router.put(
   "/:id",
   jwtMiddleware,
-  authMiddleware,
-  adminMiddleware,
+  roleMiddleware("administrador"),
   [
     body("name").optional().notEmpty().withMessage("El nombre es requerido"),
     body("price")
@@ -80,8 +77,7 @@ router.put(
 router.delete(
   "/:id",
   jwtMiddleware,
-  authMiddleware,
-  adminMiddleware,
+  roleMiddleware("administrador"),
   (req, res) => {
     const deletedProduct = deleteProduct(parseInt(req.params.id));
     if (deletedProduct) {
