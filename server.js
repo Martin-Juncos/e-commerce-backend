@@ -10,7 +10,6 @@ const errorHandler = require("./src/middlewares/errorHandlerMiddleware");
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 // Middleware para parsear el cuerpo de las solicitudes
 app.use(express.json());
@@ -29,7 +28,4 @@ app.use("/orders", orderRoutes);
 // Middleware de manejo de errores
 app.use(errorHandler);
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en el puerto ${port}`);
-});
+module.exports = app;
