@@ -19,28 +19,37 @@ router.post(
       .isEmail()
       .withMessage("El correo electrónico debe ser válido"),
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const { name, email } = req.body;
-    const user = addUser(name, email);
-    res.status(201).json(user);
+    const { name, email, password, role } = req.body;
+    try {
+      const user = await addUser(name, email, password, role);
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
 );
 
 router.get("/", (req, res) => {
-  res.json(listUsers());
+  listUsers()
+    .then((users) => res.json(users))
+    .catch((error) => res.status(500).json({ message: error.message }));
 });
 
 router.get("/:id", (req, res) => {
-  const user = getUserById(parseInt(req.params.id));
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).send("Usuario no encontrado");
-  }
+  getUserById(parseInt(req.params.id))
+    .then((user) => {
+      if (user) {
+        res.json(user);
+      } else {
+        res.status(404).send("Usuario no encontrado");
+      }
+    })
+    .catch((error) => res.status(500).json({ message: error.message }));
 });
 
 router.put(
@@ -53,26 +62,34 @@ router.put(
       .isEmail()
       .withMessage("El correo electrónico debe ser válido"),
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    const updatedUser = updateUser(parseInt(req.params.id), req.body);
-    if (updatedUser) {
-      res.json(updatedUser);
-    } else {
-      res.status(404).send("Usuario no encontrado");
+    try {
+      const updatedUser = await updateUser(parseInt(req.params.id), req.body);
+      if (updatedUser) {
+        res.json(updatedUser);
+      } else {
+        res.status(404).send("Usuario no encontrado");
+      }
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   }
 );
 
-router.delete("/:id", authMiddleware, (req, res) => {
-  const deletedUser = deleteUser(parseInt(req.params.id));
-  if (deletedUser) {
-    res.json(deletedUser);
-  } else {
-    res.status(404).send("Usuario no encontrado");
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const deletedUser = await deleteUser(parseInt(req.params.id));
+    if (deletedUser) {
+      res.json(deletedUser);
+    } else {
+      res.status(404).send("Usuario no encontrado");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

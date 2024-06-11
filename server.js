@@ -1,13 +1,9 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const productRoutes = require("./src/routes/products");
 const userRoutes = require("./src/routes/users");
 const authRoutes = require("./src/routes/auth");
 const orderRoutes = require("./src/routes/orders");
 const errorHandler = require("./src/middlewares/errorHandlerMiddleware");
-
-// Cargar variables de entorno desde el archivo .env
-dotenv.config();
 
 const app = express();
 
