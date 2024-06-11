@@ -10,40 +10,61 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 const router = express.Router();
 
-router.post("/", authMiddleware, (req, res) => {
-  const { userId, products } = req.body;
-  const order = addOrder(userId, products);
-  res.status(201).json(order);
-});
-
-router.get("/", authMiddleware, (req, res) => {
-  res.json(listOrders());
-});
-
-router.get("/:id", authMiddleware, (req, res) => {
-  const order = getOrderById(parseInt(req.params.id));
-  if (order) {
-    res.json(order);
-  } else {
-    res.status(404).send("Orden no encontrada");
+router.post("/", authMiddleware, async (req, res) => {
+  const { userId, productId, quantity } = req.body;
+  try {
+    const order = await addOrder(userId, productId, quantity);
+    res.status(201).json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
-router.put("/:id", authMiddleware, (req, res) => {
-  const updatedOrder = updateOrder(parseInt(req.params.id), req.body);
-  if (updatedOrder) {
-    res.json(updatedOrder);
-  } else {
-    res.status(404).send("Orden no encontrada");
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const orders = await listOrders();
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
-router.delete("/:id", authMiddleware, (req, res) => {
-  const deletedOrder = deleteOrder(parseInt(req.params.id));
-  if (deletedOrder) {
-    res.json(deletedOrder);
-  } else {
-    res.status(404).send("Orden no encontrada");
+router.get("/:id", authMiddleware, async (req, res) => {
+  try {
+    const order = await getOrderById(parseInt(req.params.id));
+    if (order) {
+      res.json(order);
+    } else {
+      res.status(404).send("Orden no encontrada");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put("/:id", authMiddleware, async (req, res) => {
+  try {
+    const updatedOrder = await updateOrder(parseInt(req.params.id), req.body);
+    if (updatedOrder) {
+      res.json(updatedOrder);
+    } else {
+      res.status(404).send("Orden no encontrada");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete("/:id", authMiddleware, async (req, res) => {
+  try {
+    const deletedOrder = await deleteOrder(parseInt(req.params.id));
+    if (deletedOrder) {
+      res.json(deletedOrder);
+    } else {
+      res.status(404).send("Orden no encontrada");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

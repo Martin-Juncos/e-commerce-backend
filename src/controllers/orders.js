@@ -1,38 +1,36 @@
-let orders = [];
+const Order = require("../models/Order");
+const Product = require("../models/Product");
+const User = require("../models/User");
 
-function addOrder(userId, products) {
-  const order = {
-    id: orders.length + 1,
-    userId,
-    products,
-    date: new Date(),
-  };
-  orders.push(order);
+async function addOrder(userId, productId, quantity) {
+  const order = await Order.create({ userId, productId, quantity });
   return order;
 }
 
-function listOrders() {
+async function listOrders() {
+  const orders = await Order.findAll({ include: [User, Product] });
   return orders;
 }
 
-function getOrderById(id) {
-  return orders.find((order) => order.id === id);
+async function getOrderById(id) {
+  const order = await Order.findByPk(id, { include: [User, Product] });
+  return order;
 }
 
-function updateOrder(id, updatedOrder) {
-  const index = orders.findIndex((order) => order.id === id);
-  if (index !== -1) {
-    orders[index] = { id, ...updatedOrder };
-    return orders[index];
+async function updateOrder(id, updatedOrder) {
+  const order = await getOrderById(id);
+  if (order) {
+    await order.update(updatedOrder);
+    return order;
   }
   return null;
 }
 
-function deleteOrder(id) {
-  const index = orders.findIndex((order) => order.id === id);
-  if (index !== -1) {
-    const deletedOrder = orders.splice(index, 1);
-    return deletedOrder[0];
+async function deleteOrder(id) {
+  const order = await getOrderById(id);
+  if (order) {
+    await order.destroy();
+    return order;
   }
   return null;
 }

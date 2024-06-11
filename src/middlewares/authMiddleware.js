@@ -1,17 +1,15 @@
-const { readUsers } = require("../controllers/auth");
+const { listUsers } = require("../controllers/users");
 
 async function authMiddleware(req, res, next) {
   try {
     const { email, password } = req.headers;
     if (!email || !password) {
-      return res
-        .status(401)
-        .json({
-          message: "No autorizado: encabezados de autenticación faltantes",
-        });
+      return res.status(401).json({
+        message: "No autorizado: encabezados de autenticación faltantes",
+      });
     }
 
-    const users = await readUsers();
+    const users = await listUsers();
     const user = users.find(
       (u) => u.email === email && u.password === password
     );
