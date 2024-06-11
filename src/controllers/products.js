@@ -1,38 +1,34 @@
-let products = [];
+const Product = require("../models/Product");
 
-function addProduct(name, price, category) {
-  const product = {
-    id: products.length + 1,
-    name,
-    price,
-    category,
-  };
-  products.push(product);
+async function addProduct(name, price, category) {
+  const product = await Product.create({ name, price, category });
   return product;
 }
 
-function listProducts() {
+async function listProducts() {
+  const products = await Product.findAll();
   return products;
 }
 
-function getProductById(id) {
-  return products.find((product) => product.id === id);
+async function getProductById(id) {
+  const product = await Product.findByPk(id);
+  return product;
 }
 
-function updateProduct(id, updatedProduct) {
-  const index = products.findIndex((product) => product.id === id);
-  if (index !== -1) {
-    products[index] = { id, ...updatedProduct };
-    return products[index];
+async function updateProduct(id, updatedProduct) {
+  const product = await getProductById(id);
+  if (product) {
+    await product.update(updatedProduct);
+    return product;
   }
   return null;
 }
 
-function deleteProduct(id) {
-  const index = products.findIndex((product) => product.id === id);
-  if (index !== -1) {
-    const deletedProduct = products.splice(index, 1);
-    return deletedProduct[0];
+async function deleteProduct(id) {
+  const product = await getProductById(id);
+  if (product) {
+    await product.destroy();
+    return product;
   }
   return null;
 }
